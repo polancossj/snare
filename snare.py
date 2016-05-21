@@ -176,7 +176,7 @@ def snare_setup():
         os.mkdir('/opt/snare')
     if not os.path.exists('/opt/snare/pages'):
         os.mkdir('/opt/snare/pages')
-    log.basicConfig(filename='/opt/snare/snare.log',level=logging.INFO)
+    log.basicConfig(filename='/opt/snare/snare.log',level=log.INFO)
     with open('/opt/snare/snare.pid', 'wb') as pid_fh:
         pid_fh.write(str(os.getpid()).encode('utf-8'))
     uuid_file_path = '/opt/snare/snare.uuid'

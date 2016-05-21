@@ -32,6 +32,7 @@ from aiohttp import MultiDict
 
 from bs4 import BeautifulSoup
 import cssutils
+import logging as log
 
 
 class HttpRequestHandler(aiohttp.server.ServerHttpProtocol):
@@ -175,6 +176,7 @@ def snare_setup():
         os.mkdir('/opt/snare')
     if not os.path.exists('/opt/snare/pages'):
         os.mkdir('/opt/snare/pages')
+    log.basicConfig(filename='/opt/snare/snare.log',level=logging.INFO)
     with open('/opt/snare/snare.pid', 'wb') as pid_fh:
         pid_fh.write(str(os.getpid()).encode('utf-8'))
     uuid_file_path = '/opt/snare/snare.uuid'
@@ -266,7 +268,8 @@ if __name__ == '__main__':
     if not args.skip_check_version:
         loop.run_until_complete(compare_version_info())
     drop_privileges()
-    print('serving on {0} with uuid {1}'.format(srv.sockets[0].getsockname()[:2], snare_uuid.decode('utf-8')))
+    #print('serving on {0} with uuid {1}'.format(srv.sockets[0].getsockname()[:2], snare_uuid.decode('utf-8')))
+    log.info('serving on {0} with uuid {1}'.format(srv.sockets[0].getsockname()[:2], snare_uuid.decode('utf-8')))
     try:
         loop.run_forever()
     except (KeyboardInterrupt, TypeError) as e:
